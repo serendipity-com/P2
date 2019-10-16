@@ -13,7 +13,6 @@ public:
 
     void setCedula();
     void setClave();
-    void setValor();
 
     string getCedula();
     string getClave();

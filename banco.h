@@ -17,8 +17,8 @@ public:
 
     void registrarUsuario(string cedula,string clave, float valor);
     void escribirArchivo();
-    float consultarSaldo(string clave);
-    void retirarDinero(string clave, float cantidadDeseada);
+    void consultarSaldo(string clave);
+    void retirarDinero(string clave);
 
     map <string,Usuario> getUsuarios();
 

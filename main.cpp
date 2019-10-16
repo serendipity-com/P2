@@ -10,28 +10,57 @@ bool compararClave(string clave);
 int main()
 {
     int opcion = 0;
-    while (opcion == 0)
-    {
+    string clave;
+    string usuario;
+
+    Banco banco;
         cout << "Opcion de inicio" << endl <<"1. Administrador\n" << "2. usuario\n" << "Ingrese opcion: ";
         cin >> opcion;
-    }
+
     switch (opcion)
     {
     case 1:
-        string clave ="";
+        clave ="";
         cout << "Ingrese su clave de administrador:_";
         cin >> clave;
         if (compararClave(clave))
         {
-            Banco banco();
+
         }
         else
         {
             cout << "\nclave incorrecta"<< endl;
         }
-
+        break;
+    case 2:
+        usuario ="";
+        cout << "Ingrese su cedula: ";
+        cin >> usuario;
+        clave ="";
+        cout << "Ingrese su clave: ";
+        cin >> clave;
+        if (banco.getUsuarios()[usuario].getClave() == clave)
+        {
+            cout << "Opciones\n" << endl <<"1. Ver saldo\n" << "2. Retirar\n" << "Ingrese opcion: ";
+            opcion = 0;
+            cin >> opcion;
+            switch (opcion)
+            {
+            case 1:
+                banco.consultarSaldo(usuario);
+                break;
+            case 2:
+                banco.retirarDinero(usuario);
+                break;
+            }
+        }
+        else
+        {
+            cout << "\nUsuario o clave incorrecta"<< endl;
+        }
     }
 
+    banco.escribirArchivo();
     return 0;
 }
 

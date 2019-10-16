@@ -3,11 +3,11 @@
 Banco::Banco()
 {
     bool valorUsuario = true, valorClave = false;
-    string usuario,clave,valor;
+    string cedula,clave,valor;
 
     string texto = "";
     ifstream archivo;
-    archivo.open("baseDatos.txt"); //Abriendo archivo en modo lectura
+    archivo.open("datos.txt"); //Abriendo archivo en modo lectura
 
     if (archivo.fail())
     {
@@ -23,8 +23,9 @@ Banco::Banco()
             for (unsigned long long posicion = 0; posicion < texto.length(); posicion += 1)
             {
                 if(texto[posicion] == 59){valorUsuario =false; valorClave = true;}
-                if(texto[posicion] == 45){valorClave = false;}
+                else if(texto[posicion] == 45){valorClave = false;}
 
+                else{
                 if (valorUsuario == true)
                 {
                     cedula += texto[posicion];
@@ -37,7 +38,9 @@ Banco::Banco()
                 {
                     valor += texto[posicion];
                 }
+                }
             }
+            cout << cedula << " : "<< clave << " : "<< valor << endl;
             Usuario devolver(cedula,clave, stof(valor));
             usuarios.insert({cedula,devolver});
 
@@ -58,7 +61,7 @@ void Banco::escribirArchivo()
 {
     ofstream archivo;
 
-    archivo.open("baseDatos.txt");
+    archivo.open("datos.txt");
 
 
     if(archivo.is_open())
@@ -79,20 +82,28 @@ void Banco::escribirArchivo()
     }
 }
 
-float Banco::consultarSaldo(string cedula)
+void Banco::consultarSaldo(string cedula)
 {
-    cout << "Su saldo es: " << usuarios[cedula].getValor();
+    float valor = usuarios[cedula].getValor();
+    cout << "Su saldo es: " << valor;
+    valor -= 1000;
+    usuarios[cedula].modificarValor(valor);
 }
 
-void Banco::retirarDinero(string cedula, float cantidadDeseada)
+void Banco::retirarDinero(string cedula)
 {
+    float cantidadRetiro = 0;
+    cout << "Ingrese cantidad a retirar" << endl;
+    cin >> cantidadRetiro;
     float saldo = usuarios[cedula].getValor();
-    if(cantidadDeseada <= saldo)
+    if(cantidadRetiro <= saldo)
     {
-        saldo -= cantidadDeseada;
+        saldo -= cantidadRetiro;
+        saldo -= 1000;
         usuarios[cedula].modificarValor(saldo);
         escribirArchivo();
     }
+    else{cout << "saldo insuficiente" << endl;}
 }
 
 map<string, Usuario> Banco::getUsuarios()
