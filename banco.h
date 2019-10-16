@@ -15,10 +15,13 @@ class Banco
 public:
     Banco();
 
-    void resgitarUsuario(string cedula,string clave, float valor);
+    void registrarUsuario(string cedula,string clave, float valor);
     void escribirArchivo();
+    float consultarSaldo(string clave);
+    void retirarDinero(string clave, float cantidadDeseada);
 
     map <string,Usuario> getUsuarios();
+
 private:
     map <string,Usuario> usuarios;
 };

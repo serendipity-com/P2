@@ -7,7 +7,7 @@ Banco::Banco()
 
     string texto = "";
     ifstream archivo;
-    archivo.open("datos.txt", ios::in); //Abriendo archivo en modo lectura
+    archivo.open("baseDatos.txt"); //Abriendo archivo en modo lectura
 
     if (archivo.fail())
     {
@@ -27,7 +27,7 @@ Banco::Banco()
 
                 if (valorUsuario == true)
                 {
-                    usuario += texto[posicion];
+                    cedula += texto[posicion];
                 }
                 else if (valorClave == true)
                 {
@@ -38,8 +38,8 @@ Banco::Banco()
                     valor += texto[posicion];
                 }
             }
-            Usuario devolver(usuario,clave, stof(valor));
-            usuarios.insert({usuario,devolver});
+            Usuario devolver(cedula,clave, stof(valor));
+            usuarios.insert({cedula,devolver});
 
         }
 
@@ -47,17 +47,19 @@ Banco::Banco()
     }
 }
 
-void Banco::resgitarUsuario(string cedula, string clave, float valor)
+void Banco::registrarUsuario(string cedula, string clave, float valor)
 {
     Usuario usuario(cedula, clave, valor);
     usuarios.insert({cedula,usuario});
+    escribirArchivo();
 }
 
 void Banco::escribirArchivo()
 {
-    fstream archivo;
+    ofstream archivo;
 
-    archivo.open("datos.txt", ios::out);
+    archivo.open("baseDatos.txt");
+
 
     if(archivo.is_open())
     {
@@ -74,6 +76,22 @@ void Banco::escribirArchivo()
     else
     {
         cout <<"Error al crear el archivo "<<endl;
+    }
+}
+
+float Banco::consultarSaldo(string cedula)
+{
+    cout << "Su saldo es: " << usuarios[cedula].getValor();
+}
+
+void Banco::retirarDinero(string cedula, float cantidadDeseada)
+{
+    float saldo = usuarios[cedula].getValor();
+    if(cantidadDeseada <= saldo)
+    {
+        saldo -= cantidadDeseada;
+        usuarios[cedula].modificarValor(saldo);
+        escribirArchivo();
     }
 }
 

@@ -26,3 +26,10 @@ float Usuario::getValor()
 {
     return valor;
 }
+
+void Usuario::modificarValor(float nuevoValor)
+{
+    valor = nuevoValor;
+}
+
+

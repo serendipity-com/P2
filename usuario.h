@@ -18,6 +18,7 @@ public:
     string getCedula();
     string getClave();
     float getValor();
+    void modificarValor(float nuevoValor);
 
 private:
     string cedula;
